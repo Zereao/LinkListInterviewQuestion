@@ -10,6 +10,12 @@ public class Main {
         LinkedList list = runner.buildLinkedListWithCircle();
         boolean containCircle = runner.isContainCircle(list);
         System.out.println("该链表是否包含环：" + containCircle);
+        Node meetNode = runner.getMeetNode(list);
+        System.out.println("碰撞点的值为：" + meetNode.getValue());
+        Node entranceNode = runner.getEntranceNode(list);
+        System.out.println("入口节点的值为：" + entranceNode.getValue());
+        int circleLen = runner.getLinkedListCircleLength(list);
+        System.out.println("链表环长为：" + circleLen);
     }
 
     /**
@@ -34,6 +40,67 @@ public class Main {
             }
         }
         return false;
+    }
+
+    /**
+     * 获取碰撞节点
+     *
+     * @param list 一个包含环的链表
+     * @return 碰撞节点
+     */
+    private Node getMeetNode(LinkedList list) {
+        Node slow = list.getHead();
+        Node fast = list.getHead();
+        while (fast != null && fast.getNext() != null) {
+            slow = slow.getNext();
+            fast = fast.getNext().getNext();
+            if (slow == fast) {
+                // 这里随便返回 fast 或者 slow 都可以
+                return slow;
+            }
+        }
+        throw new IllegalArgumentException("链表不含环！");
+    }
+
+    /**
+     * 获取 链表环的入口节点
+     *
+     * @param list 链表
+     * @return 入口节点
+     */
+    private Node getEntranceNode(LinkedList list) {
+        // p1 从头结点出发
+        Node p1 = list.getHead();
+        // p2 从碰撞点出发
+        Node p2 = this.getMeetNode(list);
+        while (p1.getNext() != null) {
+            p1 = p1.getNext();
+            p2 = p2.getNext();
+            if (p1 == p2) {
+                return p1;
+            }
+        }
+        throw new IllegalArgumentException("链表不含环！");
+    }
+
+    /**
+     * 获取链表环长
+     *
+     * @param list 链表
+     * @return 环长
+     */
+    private int getLinkedListCircleLength(LinkedList list) {
+        Node meetNode = this.getMeetNode(list);
+        Node p = meetNode;
+        int len = 0;
+        while (p.getNext() != null) {
+            p = p.getNext();
+            ++len;
+            if (p == meetNode) {
+                return len;
+            }
+        }
+        throw new IllegalArgumentException("链表不含环！");
     }
 
     /**
