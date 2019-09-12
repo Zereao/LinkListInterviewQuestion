@@ -11,6 +11,7 @@
     <modules>
         <module>LinkedListContainCircle</module>
         <module>common</module>
+        <module>LinkedListMiddleNode</module>
     </modules>
 
     <dependencies>
