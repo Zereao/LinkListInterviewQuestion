@@ -73,6 +73,9 @@ public class Main {
         Node p1 = list.getHead();
         // p2 从碰撞点出发
         Node p2 = this.getMeetNode(list);
+        if (p1 == p2) {
+            return meetNode;
+        }
         while (p1.getNext() != null) {
             p1 = p1.getNext();
             p2 = p2.getNext();
